@@ -1,8 +1,10 @@
+import React from "react";
 import { Suspense } from "react";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { LoadingSpinner } from "./components/ui/LoadingSpinner";
 import NotFound from "./pages/NotFound";
+const ComicsList = React.lazy(() => import("./pages/ComicsList"));
 
 const routes: RouteObject[] = [
   {
@@ -13,7 +15,7 @@ const routes: RouteObject[] = [
         index: true,
         element: (
           <Suspense fallback={<LoadingSpinner />}>
-            <h1>Lista de comics</h1>
+            <ComicsList />
           </Suspense>
         ),
       },

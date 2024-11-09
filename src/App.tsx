@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
 import router from "./routes";
+import ErrorFallback from "@/components/ErrorFallback";
 
 const queryClient = new QueryClient();
 
@@ -13,7 +15,9 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
     </QueryClientProvider>
   );
 }
