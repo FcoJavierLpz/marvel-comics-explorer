@@ -51,14 +51,14 @@ const ComicCard = ({ comic, index, variant = "default" }: ComicCardProps) => {
         {/* Popularity Badge */}
         {isPopular && (
           <div className="absolute left-0 top-4 z-10 rounded-r-lg bg-marvel-red px-3 py-1 text-sm font-semibold text-white shadow-md">
-            Popular Choice 🔥
+            Elección Popular 🔥
           </div>
         )}
 
         {/* Stock Warning */}
         {stockLeft <= 5 && (
           <div className="absolute right-0 top-4 z-10 rounded-l-lg bg-yellow-500 px-3 py-1 text-sm font-semibold text-white shadow-md">
-            Only {stockLeft} left!
+            ¡Solo quedan {stockLeft}!
           </div>
         )}
 
@@ -81,7 +81,7 @@ const ComicCard = ({ comic, index, variant = "default" }: ComicCardProps) => {
             </div>
             <div className="flex items-center">
               <Users className="mr-1 h-4 w-4 text-blue-400" />
-              <span>{Math.floor(Math.random() * 1000) + 100} readers</span>
+              <span>{Math.floor(Math.random() * 1000) + 100} lectores</span>
             </div>
           </div>
 

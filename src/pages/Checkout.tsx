@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCartStore } from "@/store/cart";
+import { useAuthStore } from "@/store/auth";
 import { motion } from "framer-motion";
 import { CreditCard, Shield, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { AuthModal } from "@/components/auth/AuthModal";
 
 const Checkout = () => {
   const { items, getTotalPrice, clearCart } = useCartStore();
+  const { isAuthenticated } = useAuthStore();
+  const [showAuthModal, setShowAuthModal] = useState(!isAuthenticated);
   const subtotal = getTotalPrice();
   const tax = subtotal * 0.1;
   const total = subtotal + tax;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+      return;
+    }
     clearCart();
     alert("¡Gracias por tu compra!");
   };
@@ -33,6 +41,12 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={() => setShowAuthModal(false)}
+      />
+
       <div className="fixed top-[4.5rem] left-0 right-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b dark:border-gray-800">
         <div className="container mx-auto px-4 py-3">
           <Link
@@ -156,7 +170,9 @@ const Checkout = () => {
                 type="submit"
                 className="w-full bg-marvel-red text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
               >
-                Pagar ${total.toFixed(2)}
+                {isAuthenticated
+                  ? `Pagar $${total.toFixed(2)}`
+                  : "Iniciar sesión para continuar"}
               </button>
             </form>
           </div>

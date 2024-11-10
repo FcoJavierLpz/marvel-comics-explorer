@@ -12,9 +12,11 @@ import {
   Gift,
   Shield,
 } from "lucide-react";
+import { useAuthStore } from "@/store/auth";
 
 export const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuthStore();
 
   const menuItems = [
     { icon: User, label: "Mi Perfil", path: "/profile" },
@@ -26,6 +28,7 @@ export const UserMenu = () => {
     { icon: Shield, label: "Suscripción Marvel", path: "/subscription" },
     { icon: Settings, label: "Configuración", path: "/settings" },
   ];
+  if (!user) return null;
 
   return (
     <div className="relative">
@@ -45,12 +48,12 @@ export const UserMenu = () => {
             exit={{ opacity: 0, y: 10 }}
             className="absolute right-0 top-full mt-2 w-64 rounded-lg bg-white py-2 shadow-xl dark:bg-gray-800"
           >
-            <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+            <div className="border-b border-gray-100 px-4 py-3 dark:border-gray-700">
               <p className="text-sm font-medium text-gray-900 dark:text-white">
-                Peter Parker
+                {user.name}
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                peter@dailybugle.com
+                {user.email}
               </p>
             </div>
 
@@ -72,6 +75,7 @@ export const UserMenu = () => {
               <button
                 onClick={() => {
                   setIsOpen(false);
+                  logout();
                 }}
                 className="flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-700"
               >

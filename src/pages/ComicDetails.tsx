@@ -64,7 +64,7 @@ export const ComicDetails = () => {
 
       {showSocialProof && (
         <motion.div
-          className="fixed top-0 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md p-4 mb-4 text-white bg-green-500 rounded-lg shadow-lg"
+          className="fixed left-1/2 top-20 z-50 w-[90%] max-w-md -translate-x-1/2 rounded-lg bg-green-500 p-4 text-white shadow-lg md:top-0"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
