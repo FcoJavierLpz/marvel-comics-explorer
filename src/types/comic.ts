@@ -2,6 +2,7 @@ export interface Comic {
   id: number;
   title: string;
   description: string;
+  modified?: string;
   thumbnail: {
     path: string;
     extension: string;

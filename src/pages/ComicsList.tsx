@@ -2,6 +2,7 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import { useComics } from "@/hooks/useComics";
 import useFilteredComics from "@/hooks/useFilteredComics";
+import useSortedComics from "@/hooks/useSortedComics";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { SearchBar } from "@/components/ui/SearchBar";
 import UrgencyBanner from "@/components/ui/UrgencyBanner";
@@ -32,6 +33,12 @@ const ComicList = () => {
   const filteredComics = useFilteredComics({
     comics: data?.pages?.flatMap((page) => page.data.results) || [],
     searchTerm,
+  });
+
+  // Persuasive sorting based on filter
+  const sortedComics = useSortedComics({
+    comics: filteredComics,
+    selectedFilter,
   });
 
   return (
@@ -70,7 +77,7 @@ const ComicList = () => {
 
       {/* Main Comic Grid (Action) */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredComics.map((comic, index) => (
+        {sortedComics.map((comic, index) => (
           <ComicCard key={comic.id} comic={comic} index={index} />
         ))}
       </div>
