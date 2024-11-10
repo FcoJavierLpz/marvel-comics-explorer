@@ -7,7 +7,7 @@ export default {
       colors: {
         marvel: {
           red: '#ED1D24',
-          blue: '#518CCA',
+          blue: '#1E90FF',
           yellow: '#FFF200',
         },
       },

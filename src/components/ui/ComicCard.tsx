@@ -23,7 +23,7 @@ const ComicCard = ({ comic, index, variant = "default" }: ComicCardProps) => {
       <Link to={`/comics/${comic.id}`} className="block">
         <motion.div
           whileHover={{ scale: 1.05 }}
-          className="relative overflow-hidden rounded-lg bg-white shadow-md dark:bg-marvel-dark"
+          className="relative overflow-hidden rounded-lg bg-white shadow-md dark:bg-marvel-blue"
         >
           <BlurImage
             src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
@@ -31,7 +31,7 @@ const ComicCard = ({ comic, index, variant = "default" }: ComicCardProps) => {
             className="h-40 w-full object-cover"
           />
           <div className="p-2">
-            <h3 className="truncate text-sm text-gray-900 font-medium dark:text-gray-50">
+            <h3 className="truncate text-sm text-gray-900 font-medium dark:text-gray-900">
               {comic.title}
             </h3>
           </div>
@@ -45,7 +45,7 @@ const ComicCard = ({ comic, index, variant = "default" }: ComicCardProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative overflow-hidden rounded-lg bg-white shadow-lg transition-all hover:shadow-xl dark:bg-marvel-dark"
+      className="group relative overflow-hidden rounded-lg bg-white shadow-lg transition-all hover:shadow-xl dark:bg-marvel-blue"
     >
       <Link to={`/comics/${comic.id}`} className="block">
         {/* Popularity Badge */}

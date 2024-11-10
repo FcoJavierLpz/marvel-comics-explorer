@@ -4,6 +4,7 @@ import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { LoadingSpinner } from "./components/ui/LoadingSpinner";
 import NotFound from "./pages/NotFound";
+import { ComicDetails } from "./pages/ComicDetails";
 const ComicsList = React.lazy(() => import("./pages/ComicsList"));
 
 const routes: RouteObject[] = [
@@ -20,10 +21,10 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: "comic/:id",
+        path: "comics/:id",
         element: (
           <Suspense fallback={<LoadingSpinner />}>
-            <h2>Detalles del comic</h2>
+            <ComicDetails />
           </Suspense>
         ),
       },

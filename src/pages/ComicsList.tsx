@@ -78,7 +78,11 @@ const ComicList = () => {
       {/* Main Comic Grid (Action) */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {sortedComics.map((comic, index) => (
-          <ComicCard key={comic.id} comic={comic} index={index} />
+          <ComicCard
+            key={`${comic.id}-${comic.title}`}
+            comic={comic}
+            index={index}
+          />
         ))}
       </div>
 
