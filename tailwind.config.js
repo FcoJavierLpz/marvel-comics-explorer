@@ -8,7 +8,7 @@ export default {
         marvel: {
           red: '#ED1D24',
           blue: '#1E90FF',
-          yellow: '#FFF200',
+          light: '#F5F5F5',
         },
       },
       animation: {

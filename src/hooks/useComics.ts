@@ -23,9 +23,13 @@ export const useComics = () => {
       return data;
     },
     getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage || !lastPage.data) {
+        return undefined;
+      }
       const offset = allPages.length * 20;
       return offset < lastPage.data.total ? offset : undefined;
     },
+
     initialPageParam: 0,
   });
 };

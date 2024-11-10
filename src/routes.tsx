@@ -6,6 +6,7 @@ import { LoadingSpinner } from "./components/ui/LoadingSpinner";
 import NotFound from "./pages/NotFound";
 import { ComicDetails } from "./pages/ComicDetails";
 const ComicsList = React.lazy(() => import("./pages/ComicsList"));
+const Checkout = React.lazy(() => import("./pages/Checkout"));
 
 const routes: RouteObject[] = [
   {
@@ -25,6 +26,14 @@ const routes: RouteObject[] = [
         element: (
           <Suspense fallback={<LoadingSpinner />}>
             <ComicDetails />
+          </Suspense>
+        ),
+      },
+      {
+        path: "checkout",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Checkout />
           </Suspense>
         ),
       },

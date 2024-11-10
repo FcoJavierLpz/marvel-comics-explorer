@@ -2,6 +2,7 @@ import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const CartIcon = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,10 +13,10 @@ export const CartIcon = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative rounded-full p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+        className="relative rounded-full p-2 hover:bg-white/10 dark:bg-gray-800 dark:hover:bg-gray-700"
         aria-label="Shopping cart"
       >
-        <ShoppingCart className="h-5 w-5" />
+        <ShoppingCart className="h-5 w-5 text-black dark:text-white" />
         {totalItems > 0 && (
           <motion.span
             initial={{ scale: 0 }}
@@ -57,7 +58,8 @@ export const CartIcon = () => {
                           {item.title}
                         </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Qty: {item.quantity} × ${item.prices[0]?.price || 0}
+                          cantidad: {item.quantity} × $
+                          {item.prices[0]?.price || 0}
                         </p>
                       </div>
                       <button
@@ -74,9 +76,13 @@ export const CartIcon = () => {
                     <span>Total:</span>
                     <span>${getTotalPrice().toFixed(2)}</span>
                   </div>
-                  <button className="w-full rounded-lg bg-marvel-red px-4 py-2 font-semibold text-white transition-colors hover:bg-red-700">
+                  <Link
+                    to="/checkout"
+                    onClick={() => setIsOpen(false)}
+                    className="block w-full rounded-lg bg-marvel-red px-4 py-2 text-center font-semibold text-white transition-colors hover:bg-red-700"
+                  >
                     Checkout
-                  </button>
+                  </Link>
                 </div>
               </>
             )}

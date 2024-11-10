@@ -31,7 +31,7 @@ const ComicCard = ({ comic, index, variant = "default" }: ComicCardProps) => {
             className="h-40 w-full object-cover"
           />
           <div className="p-2">
-            <h3 className="truncate text-sm text-gray-900 font-medium dark:text-gray-900">
+            <h3 className="truncate text-sm text-gray-900 font-medium dark:text-gray-50">
               {comic.title}
             </h3>
           </div>

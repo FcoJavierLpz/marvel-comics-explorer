@@ -14,6 +14,7 @@ import {
 import { useComicsStore } from "@/store/comics";
 import { useCartStore } from "@/store/cart";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ComicDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,7 @@ export const ComicDetails = () => {
   const addRecentComic = useComicsStore((state) => state.addRecentComic);
   const addToCart = useCartStore((state) => state.addItem);
   const [showSocialProof, setShowSocialProof] = useState(false);
+  const navigate = useNavigate();
 
   if (isLoading) return <LoadingSpinner />;
   if (!comic) return null;
@@ -35,6 +37,14 @@ export const ComicDetails = () => {
     setTimeout(() => {
       setShowSocialProof(false);
     }, 4000);
+  };
+
+  const handleReadNow = () => {
+    addToCart({
+      ...comic,
+      prices: [{ type: "digitalPrice", price: digitalPrice }],
+    });
+    navigate("/checkout");
   };
 
   addRecentComic(comic);
@@ -140,6 +150,7 @@ export const ComicDetails = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+                  onClick={handleReadNow}
                 >
                   <BookOpen className="mr-2" />
                   Read Now
@@ -148,10 +159,10 @@ export const ComicDetails = () => {
             </div>
 
             <div className="flex space-x-4">
-              <button className="inline-flex items-center text-gray-600 transition-colors hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400">
+              <button className="inline-flex items-center text-gray-600 transition-colors hover:text-red-500 dark:text-gray-50 dark:hover:text-red-400">
                 <Heart className="mr-1" /> Save
               </button>
-              <button className="inline-flex items-center text-gray-600 transition-colors hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400">
+              <button className="inline-flex items-center text-gray-600 transition-colors hover:text-blue-500 dark:text-gray-50 dark:hover:text-blue-400">
                 <Share2 className="mr-1" /> Share
               </button>
             </div>
