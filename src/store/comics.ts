@@ -1,14 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-interface Comic {
-  id: number;
-  title: string;
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
-}
+import { Comic } from "@/types/comic";
 
 interface ComicsState {
   recentComics: Comic[];

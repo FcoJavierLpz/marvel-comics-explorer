@@ -1,15 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ComicCard from "./ui/ComicCard";
-
-interface Comic {
-  id: number;
-  title: string;
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
-}
+import { Comic } from "@/types/comic";
 
 interface RecentlyViewedProps {
   recentComics: Comic[];
@@ -29,7 +21,7 @@ const RecentlyViewed: React.FC<RecentlyViewedProps> = ({ recentComics }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <ComicCard comic={comic} index={index} />
+            <ComicCard comic={comic} index={index} variant="compact" />
           </motion.div>
         ))}
       </div>
