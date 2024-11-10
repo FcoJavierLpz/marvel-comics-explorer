@@ -1,6 +1,7 @@
 import { FC, useEffect } from "react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { CartIcon } from "@/components/cart/CartIcon";
+import { UserMenu } from "@/components/user/UserMenu";
 import { Link } from "react-router-dom";
 
 export const Header: FC = () => {
@@ -21,6 +22,7 @@ export const Header: FC = () => {
         </Link>
         <div className="flex items-center space-x-2">
           <CartIcon />
+          <UserMenu />
           <ThemeToggle />
         </div>
       </div>

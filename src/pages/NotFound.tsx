@@ -13,7 +13,7 @@ const NotFound = () => {
         to="/"
         className="px-6 py-3 bg-marvel-red text-white rounded-lg hover:bg-red-600 transition-colors"
       >
-        Regresar a Cómics
+        Regresar a la Tienda
       </Link>
     </div>
   );
