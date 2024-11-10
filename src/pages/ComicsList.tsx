@@ -1,5 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
 import { useComics } from "@/hooks/useComics";
 import useFilteredComics from "@/hooks/useFilteredComics";
 import useSortedComics from "@/hooks/useSortedComics";
@@ -12,11 +12,11 @@ import { useComicsStore } from "@/store/comics";
 import FilterSection from "@/components/FilterSection";
 import RecentlyViewed from "@/components/RecentlyViewed";
 import SocialProof from "@/components/SocialProof";
-import ComicCard from "@/components/ui/ComicCard";
+import ComicGrid from "@/components/comics/ComicGrid";
 
 const ComicList = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useComics();
-  const { ref, inView } = useInView();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useComics();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<
     "trending" | "popular" | "recent"
@@ -24,22 +24,36 @@ const ComicList = () => {
   const recentComics = useComicsStore((state) => state.recentComics);
   const [showUrgencyBanner, setShowUrgencyBanner] = useState(true);
 
-  useEffect(() => {
-    if (inView && hasNextPage) {
+  const handleLoadMore = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, fetchNextPage]);
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
+  const { ref } = useInView({
+    onChange: (inView) => {
+      if (inView) {
+        handleLoadMore();
+      }
+    },
+    threshold: 0,
+    rootMargin: "200px",
+  });
+
+  const allComics = data?.pages.flatMap((page) => page.data.results) || [];
   const filteredComics = useFilteredComics({
-    comics: data?.pages?.flatMap((page) => page.data.results) || [],
+    comics: allComics,
     searchTerm,
   });
 
-  // Persuasive sorting based on filter
   const sortedComics = useSortedComics({
     comics: filteredComics,
     selectedFilter,
   });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -75,16 +89,19 @@ const ComicList = () => {
         <NoResultsMessage searchTerm={searchTerm} />
       )}
 
-      {/* Main Comic Grid (Action) */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {sortedComics.map((comic, index) => (
-          <ComicCard key={`${comic.id}-${index}`} comic={comic} index={index} />
-        ))}
-      </div>
+      <ComicGrid comics={sortedComics} />
 
-      {!searchTerm && (
-        <div ref={ref} className="mt-8">
-          {isFetchingNextPage && <LoadingSpinner />}
+      {!searchTerm && hasNextPage && (
+        <div
+          ref={ref}
+          className="py-4 mt-4"
+          style={{ minHeight: isFetchingNextPage ? "100px" : "0" }}
+        >
+          {isFetchingNextPage && (
+            <div className="flex justify-center">
+              <LoadingSpinner />
+            </div>
+          )}
         </div>
       )}
     </div>

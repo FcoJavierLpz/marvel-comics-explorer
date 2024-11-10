@@ -6,6 +6,8 @@ interface ComicsResponse {
   data: {
     results: Comic[];
     total: number;
+    limit: number;
+    offset: number;
   };
 }
 
@@ -23,13 +25,9 @@ export const useComics = () => {
       return data;
     },
     getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage || !lastPage.data) {
-        return undefined;
-      }
-      const offset = allPages.length * 20;
-      return offset < lastPage.data.total ? offset : undefined;
+      const nextOffset = allPages.length * lastPage.data.limit;
+      return nextOffset < lastPage.data.total ? nextOffset : undefined;
     },
-
     initialPageParam: 0,
   });
 };
