@@ -4,10 +4,13 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        'xs': '385px',
+      },
       colors: {
         marvel: {
           red: '#ED1D24',
-          blue: '#1E90FF',
+          blue: '#003152',
           light: '#F5F5F5',
         },
       },

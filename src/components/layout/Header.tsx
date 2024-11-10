@@ -15,7 +15,7 @@ export const Header: FC = () => {
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center">
           <div className="bg-marvel-red px-3 py-1.5 rounded">
-            <h1 className="text-2xl font-bold text-white tracking-wider">
+            <h1 className="text-2xl font-bold text-white tracking-wider whitespace-nowrap xs:text-lg">
               MARVEL COMICS
             </h1>
           </div>

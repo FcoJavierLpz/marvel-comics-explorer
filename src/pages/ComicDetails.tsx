@@ -84,6 +84,7 @@ export const ComicDetails = () => {
           </div>
         </motion.div>
       )}
+
       <div className="container mx-auto px-4 py-8 pt-24">
         <div className="grid gap-8 lg:grid-cols-2">
           <motion.div
@@ -120,7 +121,7 @@ export const ComicDetails = () => {
             </div>
 
             <div className="space-y-4 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                 <div className="space-y-1">
                   <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
                     Edición Impresa
@@ -132,11 +133,11 @@ export const ComicDetails = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center rounded-lg bg-marvel-red px-6 py-3 font-semibold text-white transition-colors hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700"
+                  className="inline-flex min-w-[140px] items-center justify-center rounded-lg bg-marvel-red px-4 py-3 font-semibold text-white transition-colors hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700"
                   onClick={handleAddToCart}
                 >
                   <ShoppingCart className="mr-2" />
-                  Agregar al Carrito
+                  <span className="whitespace-nowrap">Agregar</span>
                 </motion.button>
               </div>
 
@@ -153,11 +154,11 @@ export const ComicDetails = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+                  className="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-green-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
                   onClick={handleReadNow}
                 >
                   <BookOpen className="mr-2" />
-                  Leer Ahora
+                  <span className="whitespace-nowrap">Leer Ahora</span>
                 </motion.button>
               </div>
             </div>
