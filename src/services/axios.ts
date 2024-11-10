@@ -1,5 +1,5 @@
 import axios from "axios";
-import { generateMarvelHash } from "@/utils/marvel";
+import { generateMarvelHash } from "@/utils/helpers";
 import { config } from "../../config";
 
 const ts = new Date().getTime().toString();
