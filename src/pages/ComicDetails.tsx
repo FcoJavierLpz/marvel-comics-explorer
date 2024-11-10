@@ -15,13 +15,14 @@ import { useComicsStore } from "@/store/comics";
 import { useCartStore } from "@/store/cart";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CartAlert from "@/components/ui/CartAlert";
 
 export const ComicDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { data: comic, isLoading } = useComic(id!);
   const addRecentComic = useComicsStore((state) => state.addRecentComic);
   const addToCart = useCartStore((state) => state.addItem);
-  const [showSocialProof, setShowSocialProof] = useState(false);
+  const [showCartAlert, setShowCartAlert] = useState(false);
   const navigate = useNavigate();
 
   if (isLoading) return <LoadingSpinner />;
@@ -32,10 +33,10 @@ export const ComicDetails = () => {
 
   const handleAddToCart = () => {
     addToCart(comic);
-    setShowSocialProof(true);
+    setShowCartAlert(true);
 
     setTimeout(() => {
-      setShowSocialProof(false);
+      setShowCartAlert(false);
     }, 4000);
   };
 
@@ -51,6 +52,8 @@ export const ComicDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-marvel-blue">
+      <CartAlert show={showCartAlert} onClose={() => setShowCartAlert(false)} />
+
       <div className="fixed top-[4.5rem] left-0 right-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b dark:border-gray-800">
         <div className="container mx-auto px-4 py-3">
           <Link
@@ -61,29 +64,6 @@ export const ComicDetails = () => {
           </Link>
         </div>
       </div>
-
-      {showSocialProof && (
-        <motion.div
-          className="fixed left-1/2 top-20 z-50 w-[90%] max-w-md -translate-x-1/2 rounded-lg bg-green-500 p-4 text-white shadow-lg md:top-0"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <ShoppingCart className="mr-2" />
-              <span className="font-semibold">¡Cómic agregado al carrito!</span>
-            </div>
-            <button
-              className="ml-2 text-white hover:text-gray-200"
-              onClick={() => setShowSocialProof(false)}
-            >
-              &times;
-            </button>
-          </div>
-        </motion.div>
-      )}
 
       <div className="container mx-auto px-4 py-8 pt-24">
         <div className="grid gap-8 lg:grid-cols-2">
