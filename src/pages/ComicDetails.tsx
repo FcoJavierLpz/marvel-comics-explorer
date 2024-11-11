@@ -56,7 +56,7 @@ export const ComicDetails = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 pt-32">
+      <div className="container mx-auto px-4 py-8 pt-24">
         <div className="grid gap-8 lg:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
