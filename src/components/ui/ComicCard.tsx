@@ -1,10 +1,10 @@
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { BlurImage } from "@/components/ui/BlurImage";
 import type { Comic } from "@/types/comic";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Star, Users } from "lucide-react";
 import { useCartStore } from "@/store/cart";
-import React, { useState } from "react";
 import CartAlert from "./CartAlert";
 
 interface ComicCardProps {
@@ -15,12 +15,17 @@ interface ComicCardProps {
 
 const ComicCard = React.memo(
   ({ comic, index, variant = "default" }: ComicCardProps) => {
+    const addToCart = useCartStore((state) => state.addItem);
+    const [showCartAlert, setShowCartAlert] = useState(false);
+
+    if (!comic) {
+      return null;
+    }
+
     const price = comic.prices.find((p) => p.type === "printPrice")?.price || 0;
     const isPopular = index < 5;
     const stockLeft = Math.floor(Math.random() * 10) + 1;
     const rating = (4 + Math.random()).toFixed(1);
-    const addToCart = useCartStore((state) => state.addItem);
-    const [showCartAlert, setShowCartAlert] = useState(false);
 
     const handleAddToCart = (e: React.MouseEvent) => {
       e.preventDefault();
@@ -82,12 +87,12 @@ const ComicCard = React.memo(
             <BlurImage
               src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
               alt={comic.title}
-              className="h-[400px] w-full object-cover transition-transform group-hover:scale-105"
+              className="h-[400px] w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-            <div className="absolute bottom-0 w-full p-4 text-white opacity-0 transition-all group-hover:bottom-0 group-hover:opacity-100">
+            <div className="absolute bottom-0 w-full p-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100">
               <h3 className="mb-2 text-lg font-bold">{comic.title}</h3>
 
               {/* Social Proof */}

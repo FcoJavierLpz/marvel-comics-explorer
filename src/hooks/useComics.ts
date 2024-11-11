@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, keepPreviousData } from "@tanstack/react-query";
 import { marvelApi } from "@/services/axios";
 import type { Comic } from "@/types/comic";
 
@@ -12,12 +12,12 @@ interface ComicsResponse {
 }
 
 export const useComics = () => {
-  return useInfiniteQuery<ComicsResponse, Error>({
+  return useInfiniteQuery<ComicsResponse>({
     queryKey: ["comics"],
     queryFn: async ({ pageParam = 0 }) => {
       const { data } = await marvelApi.get<ComicsResponse>("/comics", {
         params: {
-          limit: 20,
+          limit: 12,
           offset: pageParam,
           orderBy: "-focDate",
         },
@@ -29,5 +29,9 @@ export const useComics = () => {
       return nextOffset < lastPage.data.total ? nextOffset : undefined;
     },
     initialPageParam: 0,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+    gcTime: 1000 * 60 * 30,
   });
 };

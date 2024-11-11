@@ -1,5 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import { useState, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { useComics } from "@/hooks/useComics";
 import useFilteredComics from "@/hooks/useFilteredComics";
 import useSortedComics from "@/hooks/useSortedComics";
@@ -7,16 +7,16 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { SearchBar } from "@/components/ui/SearchBar";
 import UrgencyBanner from "@/components/ui/UrgencyBanner";
 import NoResultsMessage from "@/components/NoResultsMessage";
-
 import { useComicsStore } from "@/store/comics";
 import FilterSection from "@/components/FilterSection";
 import RecentlyViewed from "@/components/RecentlyViewed";
 import SocialProof from "@/components/SocialProof";
 import ComicGrid from "@/components/comics/ComicGrid";
 
-const ComicList = () => {
+const ComicsList = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useComics();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<
     "trending" | "popular" | "recent"
@@ -24,23 +24,20 @@ const ComicList = () => {
   const recentComics = useComicsStore((state) => state.recentComics);
   const [showUrgencyBanner, setShowUrgencyBanner] = useState(true);
 
-  const handleLoadMore = useCallback(() => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-  const { ref } = useInView({
+  const { ref: loadMoreRef } = useInView({
+    threshold: 0,
+    rootMargin: "300px",
     onChange: (inView) => {
-      if (inView) {
-        handleLoadMore();
+      if (inView && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
       }
     },
-    threshold: 0,
-    rootMargin: "200px",
   });
 
-  const allComics = data?.pages.flatMap((page) => page.data.results) || [];
+  const allComics = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data.results) || [];
+  }, [data?.pages]);
+
   const filteredComics = useFilteredComics({
     comics: allComics,
     searchTerm,
@@ -92,20 +89,12 @@ const ComicList = () => {
       <ComicGrid comics={sortedComics} />
 
       {!searchTerm && hasNextPage && (
-        <div
-          ref={ref}
-          className="py-4 mt-4"
-          style={{ minHeight: isFetchingNextPage ? "100px" : "0" }}
-        >
-          {isFetchingNextPage && (
-            <div className="flex justify-center">
-              <LoadingSpinner />
-            </div>
-          )}
+        <div ref={loadMoreRef} className="h-10 w-full">
+          {isFetchingNextPage && <LoadingSpinner />}
         </div>
       )}
     </div>
   );
 };
 
-export default ComicList;
+export default ComicsList;

@@ -18,6 +18,8 @@ export const BlurImage = ({
     <img
       src={src}
       alt={alt}
+      loading="lazy"
+      decoding="async"
       className={cn(
         "duration-700 ease-in-out",
         isLoading ? "scale-105 blur-lg" : "scale-100 blur-0",
@@ -28,3 +30,5 @@ export const BlurImage = ({
     />
   );
 };
+
+BlurImage.displayName = "BlurImage";
