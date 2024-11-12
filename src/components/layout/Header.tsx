@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { CartIcon } from "@/components/cart/CartIcon";
 import { UserMenu } from "@/components/user/UserMenu";
@@ -12,10 +12,13 @@ export const Header: FC = () => {
   const { isAuthenticated } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const theme = localStorage.getItem("theme") || "light";
     document.documentElement.classList.toggle("dark", theme === "dark");
+
+    return () => setIsMenuOpen(false);
   }, []);
 
   const toggleMenu = () => {
@@ -81,50 +84,31 @@ export const Header: FC = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
+              ref={mobileMenuRef}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="fixed inset-x-0 top-[73px] z-50 bg-white dark:bg-gray-900 md:hidden"
+              className="fixed inset-x-0 top-[73px] z-50 bg-white/95 backdrop-blur-sm shadow-lg border-t border-gray-200 dark:bg-gray-900/95 dark:border-gray-800 md:hidden"
               style={{ height: "calc(100vh - 73px)" }}
             >
-              <div className="flex flex-col p-4 space-y-4">
+              <div className="flex flex-col p-4">
                 {isAuthenticated ? (
-                  <div className="flex flex-col space-y-4">
-                    <Link
-                      to="/profile"
-                      className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
-                      onClick={toggleMenu}
-                    >
-                      Mi Perfil
-                    </Link>
-                    <Link
-                      to="/library"
-                      className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
-                      onClick={toggleMenu}
-                    >
-                      Biblioteca
-                    </Link>
-                    <Link
-                      to="/orders"
-                      className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
-                      onClick={toggleMenu}
-                    >
-                      Mis Pedidos
-                    </Link>
-                  </div>
+                  <UserMenu isMobile onClose={() => setIsMenuOpen(false)} />
                 ) : (
                   <button
                     onClick={() => {
                       setShowAuthModal(true);
-                      toggleMenu();
+                      setIsMenuOpen(false);
                     }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+                    className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-900 dark:text-white"
                   >
                     Iniciar Sesión
                   </button>
                 )}
-                <div className="flex items-center justify-between px-4 py-2">
-                  <span className="text-sm">Tema</span>
+                <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+                  <span className="text-sm text-gray-900 dark:text-white">
+                    Tema
+                  </span>
                   <ThemeToggle />
                 </div>
               </div>
