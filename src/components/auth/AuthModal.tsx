@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Mail, User, Lock } from "lucide-react";
 import { useAuthStore } from "@/store/auth";
@@ -18,8 +18,22 @@ export const AuthModal = ({ isOpen, onClose, onSuccess }: AuthModalProps) => {
 
   const { login, register } = useAuthStore();
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleClose = () => {
+    document.body.style.overflow = "unset";
+    onClose();
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -47,6 +61,7 @@ export const AuthModal = ({ isOpen, onClose, onSuccess }: AuthModalProps) => {
       register(name, email, password);
     }
 
+    document.body.style.overflow = "unset";
     onSuccess();
     onClose();
   };
@@ -62,7 +77,7 @@ export const AuthModal = ({ isOpen, onClose, onSuccess }: AuthModalProps) => {
             className="relative w-full max-w-md overflow-hidden rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800"
           >
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
             >
               <X className="h-5 w-5" />
